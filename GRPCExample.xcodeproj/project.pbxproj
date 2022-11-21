@@ -11,6 +11,15 @@
 		63718E55292B99160011F065 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E54292B99160011F065 /* ContentView.swift */; };
 		63718E57292B99170011F065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63718E56292B99170011F065 /* Assets.xcassets */; };
 		63718E5A292B99170011F065 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63718E59292B99170011F065 /* Preview Assets.xcassets */; };
+		63718E61292B9F530011F065 /* DemoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E60292B9F530011F065 /* DemoInteractor.swift */; };
+		63718E69292BA26A0011F065 /* JWToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E63292BA26A0011F065 /* JWToken.swift */; };
+		63718E6B292BA26A0011F065 /* ErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E65292BA26A0011F065 /* ErrorMapper.swift */; };
+		63718E6C292BA26A0011F065 /* GRPCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E66292BA26A0011F065 /* GRPCService.swift */; };
+		63718E6E292BA26A0011F065 /* GRPCServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E68292BA26A0011F065 /* GRPCServiceClient.swift */; };
+		63718E71292BA42B0011F065 /* GRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 63718E70292BA42B0011F065 /* GRPC */; };
+		63718E73292BA72C0011F065 /* streams_services.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E72292BA72B0011F065 /* streams_services.grpc.swift */; };
+		63718E75292BA7950011F065 /* StgStreamsClient+GRPCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E74292BA7950011F065 /* StgStreamsClient+GRPCService.swift */; };
+		63718E77292BA7CC0011F065 /* streams_services.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E76292BA7CC0011F065 /* streams_services.pb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +28,14 @@
 		63718E54292B99160011F065 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		63718E56292B99170011F065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63718E59292B99170011F065 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		63718E60292B9F530011F065 /* DemoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoInteractor.swift; sourceTree = "<group>"; };
+		63718E63292BA26A0011F065 /* JWToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JWToken.swift; sourceTree = "<group>"; };
+		63718E65292BA26A0011F065 /* ErrorMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorMapper.swift; sourceTree = "<group>"; };
+		63718E66292BA26A0011F065 /* GRPCService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPCService.swift; sourceTree = "<group>"; };
+		63718E68292BA26A0011F065 /* GRPCServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPCServiceClient.swift; sourceTree = "<group>"; };
+		63718E72292BA72B0011F065 /* streams_services.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = streams_services.grpc.swift; sourceTree = "<group>"; };
+		63718E74292BA7950011F065 /* StgStreamsClient+GRPCService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StgStreamsClient+GRPCService.swift"; sourceTree = "<group>"; };
+		63718E76292BA7CC0011F065 /* streams_services.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = streams_services.pb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63718E71292BA42B0011F065 /* GRPC in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,8 +69,10 @@
 		63718E51292B99160011F065 /* GRPCExample */ = {
 			isa = PBXGroup;
 			children = (
+				63718E60292B9F530011F065 /* DemoInteractor.swift */,
 				63718E52292B99160011F065 /* GRPCExampleApp.swift */,
 				63718E54292B99160011F065 /* ContentView.swift */,
+				63718E62292BA26A0011F065 /* GRPCService */,
 				63718E56292B99170011F065 /* Assets.xcassets */,
 				63718E58292B99170011F065 /* Preview Content */,
 			);
@@ -65,6 +85,20 @@
 				63718E59292B99170011F065 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		63718E62292BA26A0011F065 /* GRPCService */ = {
+			isa = PBXGroup;
+			children = (
+				63718E72292BA72B0011F065 /* streams_services.grpc.swift */,
+				63718E76292BA7CC0011F065 /* streams_services.pb.swift */,
+				63718E63292BA26A0011F065 /* JWToken.swift */,
+				63718E65292BA26A0011F065 /* ErrorMapper.swift */,
+				63718E66292BA26A0011F065 /* GRPCService.swift */,
+				63718E68292BA26A0011F065 /* GRPCServiceClient.swift */,
+				63718E74292BA7950011F065 /* StgStreamsClient+GRPCService.swift */,
+			);
+			path = GRPCService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +117,9 @@
 			dependencies = (
 			);
 			name = GRPCExample;
+			packageProductDependencies = (
+				63718E70292BA42B0011F065 /* GRPC */,
+			);
 			productName = GRPCExample;
 			productReference = 63718E4F292B99160011F065 /* GRPCExample.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +148,9 @@
 				Base,
 			);
 			mainGroup = 63718E46292B99160011F065;
+			packageReferences = (
+				63718E6F292BA42B0011F065 /* XCRemoteSwiftPackageReference "grpc-swift" */,
+			);
 			productRefGroup = 63718E50292B99160011F065 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,8 +177,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63718E6C292BA26A0011F065 /* GRPCService.swift in Sources */,
 				63718E55292B99160011F065 /* ContentView.swift in Sources */,
+				63718E75292BA7950011F065 /* StgStreamsClient+GRPCService.swift in Sources */,
+				63718E73292BA72C0011F065 /* streams_services.grpc.swift in Sources */,
+				63718E61292B9F530011F065 /* DemoInteractor.swift in Sources */,
+				63718E69292BA26A0011F065 /* JWToken.swift in Sources */,
+				63718E77292BA7CC0011F065 /* streams_services.pb.swift in Sources */,
 				63718E53292B99160011F065 /* GRPCExampleApp.swift in Sources */,
+				63718E6B292BA26A0011F065 /* ErrorMapper.swift in Sources */,
+				63718E6E292BA26A0011F065 /* GRPCServiceClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +323,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,6 +353,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -339,6 +389,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		63718E6F292BA42B0011F065 /* XCRemoteSwiftPackageReference "grpc-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/grpc/grpc-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.8.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		63718E70292BA42B0011F065 /* GRPC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63718E6F292BA42B0011F065 /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = GRPC;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 63718E47292B99160011F065 /* Project object */;
 }
