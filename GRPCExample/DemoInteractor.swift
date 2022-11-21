@@ -7,9 +7,12 @@
 
 import NIOCore
 import SwiftProtobuf
+import Network
 
 final class DemoInteractor {
     private lazy var grpcService = GRPCService(host: "mobile-dev.livecom.tech", port: 443)
+    let monitor = NWPathMonitor()
+    var logs: [String] = []
 
     init() {
     }
@@ -28,6 +31,13 @@ final class DemoInteractor {
             handleError("\(error)")
         } handleConnectivityState: { state in
             handleConnectivityStatus("\(state)")
+        }
+    }
+
+    func subscribeToNetworkStatus(handleNetworkStatusChange: @escaping (String) -> Void) {
+        monitor.start(queue: .global(qos: .utility))
+        monitor.pathUpdateHandler = { path in
+            handleNetworkStatusChange(path.debugDescription)
         }
     }
 

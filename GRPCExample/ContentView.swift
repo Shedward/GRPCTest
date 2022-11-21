@@ -18,52 +18,80 @@ struct ContentView: View {
     var connectionStatus: String = " -- "
     @State
     var lastGRPCError: String = " -- "
+    @State
+    var networkStatus: String = " -- "
 
     var body: some View {
-        VStack(spacing: 32) {
-            Button("Send request") {
-                self.result = nil
-                demoInteractor.sendRequest { result in
-                    self.result = result
-                }
-            }
+        NavigationView {
+            VStack(spacing: 32) {
+                VStack {
+                    Text("Response: ").font(.caption)
+                    switch result {
+                    case .success(let id):
+                        Text("Success \(id)")
+                    case .failure(let error):
+                        Text("Failed \(error.localizedDescription)")
+                            .foregroundColor(.red)
+                    case .none:
+                        Text(" -- ")
 
-            VStack {
-                Text("Response: ").font(.caption)
-                switch result {
-                case .success(let id):
-                    Text("Success \(id)")
-                case .failure(let error):
-                    Text("Failed \(error.localizedDescription)")
+                    }
+                }
+
+                VStack {
+                    Text("Connection status:").font(.caption)
+                    Text(connectionStatus)
+                        .foregroundColor(.green)
+                }
+
+                VStack {
+                    Text("Last GRPC connection error:")
+                        .font(.caption)
+                    Text(lastGRPCError)
                         .foregroundColor(.red)
-                case .none:
-                    Text(" -- ")
-
                 }
-            }
 
-            VStack {
-                Text("Connection status:").font(.caption)
-                Text(connectionStatus)
-                    .foregroundColor(.green)
-            }
+                VStack {
+                    Text("Network status:")
+                        .font(.caption)
+                    Text(networkStatus)
+                }
 
-            VStack {
-                Text("Last GRPC connection error:")
-                    .font(.caption)
-                Text(lastGRPCError)
-                    .foregroundColor(.red)
+                NavigationLink("Show logs") {
+                    LogView(logs: demoInteractor.logs)
+                }
+
+                Spacer()
+                    .frame(height: 32)
+
+                Button("Send request") {
+                    self.result = nil
+                    self.logEvent("Request: Started")
+                    demoInteractor.sendRequest { result in
+                        self.logEvent("Request: Finished \(result)")
+                        self.result = result
+                    }
+                }
             }
         }
-        .padding()
         .onAppear {
             demoInteractor.subscribeToStatus { status in
                 self.connectionStatus = status
+                self.logEvent("Connection: Status changed to \(status)")
             } handleError: { error in
+                self.logEvent("Connection: Did catch error \(error)")
                 self.lastGRPCError = error
             }
-
+            demoInteractor.subscribeToNetworkStatus { networkStatus in
+                self.logEvent("Network: \(networkStatus)")
+                self.networkStatus = networkStatus
+            }
         }
+    }
+
+    private func logEvent(_ message: String) {
+        NSLog("GRPCExample." + message)
+        demoInteractor.logs.append(message)
     }
 }
 

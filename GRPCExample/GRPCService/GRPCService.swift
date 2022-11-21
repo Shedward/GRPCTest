@@ -9,12 +9,13 @@ import Foundation
 import GRPC
 import NIO
 import NIOHPACK
+import Network
 
 public enum GRPCServiceError: Error {
     case notAuthorized
 }
 
-public struct GRPCService {
+public class GRPCService {
 
     public struct Options {
         public static let defaultTimeout: TimeInterval = 12
@@ -38,35 +39,20 @@ public struct GRPCService {
     }
 
     private let defaultConnectionGroup: EventLoopGroup
-    public var connection: GRPCChannel
-
+    private let host: String
+    private let port: Int
+    private let networkMonitor = NWPathMonitor()
+    public var connection: GRPCChannel!
     public let debugDelegate = DebugDelegate()
 
     public init(
         host: String,
         port: Int
     ) {
+        self.host = host
+        self.port = port
         defaultConnectionGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1)
-
-        let useSingleConnection = true
-        if useSingleConnection {
-            connection = ClientConnection
-                .usingPlatformAppropriateTLS(for: defaultConnectionGroup)
-                .withConnectionBackoff(multiplier: 1.1)
-                .withConnectionBackoff(maximum: .minutes(1))
-                .withConnectionTimeout(minimum: .seconds(Int64(Options.defaultTimeout)))
-                .withErrorDelegate(debugDelegate)
-                .withConnectivityStateDelegate(debugDelegate)
-                .connect(host: host, port: port)
-        } else {
-            var configuration = GRPCChannelPool.Configuration.with(
-                target: .host(host, port: port),
-                transportSecurity: .tls(.makeClientDefault(compatibleWith: defaultConnectionGroup)),
-                eventLoopGroup: defaultConnectionGroup
-            )
-            configuration.errorDelegate = debugDelegate
-            connection = try! GRPCChannelPool.with(configuration: configuration)
-        }
+        connection = makeConnection()
     }
 
     public func call<Client: GRPCServiceClient, Request, Response>(
@@ -89,7 +75,7 @@ public struct GRPCService {
         options: Options,
         eventHandler: @escaping (StreamEvent) -> Void
     ) -> ServerStreamingCall<ConnectRequest, StreamEvent> {
-        let client = Client(channel: connection, interceptorsFactory: nil)
+        let client = Client(channel: self.connection, interceptorsFactory: nil)
         let clientMethod = method(client)
         return clientMethod(request, callOptions(for: options), eventHandler)
     }
@@ -99,7 +85,7 @@ public struct GRPCService {
         call: @escaping (GRPCChannel, CallOptions) -> EventLoopFuture<Response>
     ) -> EventLoopFuture<Response> {
         let makeCall = {
-            call(connection, callOptions(for: options))
+            call(self.connection, self.callOptions(for: options))
                 .flatMapErrorWithEventLoop { error, eventLoop in
                     if let errorMapper = options.errorMapper {
                         return eventLoop.makeFailedFuture(errorMapper.error(from: error))
@@ -144,6 +130,46 @@ public struct GRPCService {
         )
 
         return options
+    }
+
+    private func makeConnection() -> GRPCChannel  {
+        let useSingleConnection = true
+        if useSingleConnection {
+            return ClientConnection
+                .usingPlatformAppropriateTLS(for: defaultConnectionGroup)
+                .withConnectionBackoff(multiplier: 1.1)
+                .withConnectionBackoff(maximum: .minutes(1))
+                .withConnectionTimeout(minimum: .seconds(Int64(Options.defaultTimeout)))
+                .withErrorDelegate(debugDelegate)
+                .withConnectivityStateDelegate(debugDelegate)
+                .connect(host: host, port: port)
+        } else {
+            var configuration = GRPCChannelPool.Configuration.with(
+                target: .host(host, port: port),
+                transportSecurity: .tls(.makeClientDefault(compatibleWith: defaultConnectionGroup)),
+                eventLoopGroup: defaultConnectionGroup
+            )
+            configuration.errorDelegate = debugDelegate
+            return try! GRPCChannelPool.with(configuration: configuration)
+        }
+    }
+
+    private func subscribeToNetworkStatus() {
+        networkMonitor.start(queue: .global(qos: .utility))
+        networkMonitor.pathUpdateHandler = { [weak self] path in
+            guard let self = self else { return }
+
+            _ = self.connection?.close()
+
+            switch path.status {
+            case .satisfied, .requiresConnection:
+                self.connection = self.makeConnection()
+            case .unsatisfied:
+                self.connection = nil
+            @unknown default:
+                self.connection = self.makeConnection()
+            }
+        }
     }
 }
 

@@ -20,6 +20,7 @@
 		63718E73292BA72C0011F065 /* streams_services.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E72292BA72B0011F065 /* streams_services.grpc.swift */; };
 		63718E75292BA7950011F065 /* StgStreamsClient+GRPCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E74292BA7950011F065 /* StgStreamsClient+GRPCService.swift */; };
 		63718E77292BA7CC0011F065 /* streams_services.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63718E76292BA7CC0011F065 /* streams_services.pb.swift */; };
+		63EB1B6E292BCAD60063D7C4 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EB1B6D292BCAD60063D7C4 /* LogView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		63718E72292BA72B0011F065 /* streams_services.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = streams_services.grpc.swift; sourceTree = "<group>"; };
 		63718E74292BA7950011F065 /* StgStreamsClient+GRPCService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StgStreamsClient+GRPCService.swift"; sourceTree = "<group>"; };
 		63718E76292BA7CC0011F065 /* streams_services.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = streams_services.pb.swift; sourceTree = "<group>"; };
+		63EB1B6D292BCAD60063D7C4 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				63718E60292B9F530011F065 /* DemoInteractor.swift */,
 				63718E52292B99160011F065 /* GRPCExampleApp.swift */,
 				63718E54292B99160011F065 /* ContentView.swift */,
+				63EB1B6D292BCAD60063D7C4 /* LogView.swift */,
 				63718E62292BA26A0011F065 /* GRPCService */,
 				63718E56292B99170011F065 /* Assets.xcassets */,
 				63718E58292B99170011F065 /* Preview Content */,
@@ -186,6 +189,7 @@
 				63718E77292BA7CC0011F065 /* streams_services.pb.swift in Sources */,
 				63718E53292B99160011F065 /* GRPCExampleApp.swift in Sources */,
 				63718E6B292BA26A0011F065 /* ErrorMapper.swift in Sources */,
+				63EB1B6E292BCAD60063D7C4 /* LogView.swift in Sources */,
 				63718E6E292BA26A0011F065 /* GRPCServiceClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,7 +400,7 @@
 			repositoryURL = "https://github.com/grpc/grpc-swift.git";
 			requirement = {
 				kind = exactVersion;
-				version = 1.8.2;
+				version = 1.10.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
